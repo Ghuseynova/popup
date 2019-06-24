@@ -1,0 +1,49 @@
+.popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s;
+
+  &--is-opened {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  &__container {
+    position: relative;
+    max-width: 500px;
+    min-width: 400px;
+    display: flex;
+    flex-direction: column;
+    padding: 25px;
+    border-radius: 5px;
+    background-color: #fff;
+  }
+
+  &__close {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    background-color: rgba(255, 0, 0, 1);
+    cursor: pointer;
+
+    &::after {
+      content: "\00d7";
+      display: inline-block;
+      font-size: 20px;
+      color: #fff;
+    }
+  }
+}
