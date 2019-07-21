@@ -4,7 +4,9 @@ import "./scss/style.scss";
 
 import { Popup } from "./libjs/popup.js";
 
-const content = document.querySelector("#myPopup");
+const content = document.querySelector(".content");
+console.log(content);
 const newPopup = new Popup(content);
 
-newPopup.open("js-popup-open");
+newPopup.init();
+// console.log(newPopup.init);

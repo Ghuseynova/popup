@@ -1,52 +1,75 @@
 export class Popup {
-  constructor(arg) {
+  constructor(content) {
     this.popup = null;
+    this.overlay = null;
     this.container = null;
     this.closeBtn = null;
-    this.content = arg;
+    this.options = {
+      content: content
+    };
   }
 
   close() {
-    this.popup.className = "popup";
+    if (this.popup.classList.contains("is-opened")) {
+      this.popup.classList.remove("is-opened");
+    }
   }
 
-  initEvents(className) {
-    const elem = document.querySelector("." + className);
-
+  _initEvents() {
+    const elem = document.querySelector(".js-popup-open");
     if (elem) {
       elem.addEventListener("click", () => {
-        this.popup.classList.add("popup--is-opened");
+        this.popup.classList.add("is-opened");
       });
     }
-    this.popup.addEventListener("click", this.close.bind(this));
-    this.closeBtn.addEventListener("click", this.close.bind(this));
+
+    if (this.closeBtn) {
+      this.closeBtn.addEventListener("click", () => this.close());
+    }
+
+    if (this.overlay) {
+      this.overlay.addEventListener("click", () => this.close());
+    }
   }
 
-  toBuilt() {
+  _toBuilt() {
     let content;
 
-    content = this.content.innerHTML;
+    if (typeof this.options.content === "string") {
+      content = this.options.content;
+    } else {
+      content = this.options.content;
+    }
 
     this.popup = document.createElement("div");
     this.popup.className = "popup";
 
+    this.overlay = document.createElement("div");
+    this.overlay.className = "popup__overlay";
+    this.popup.appendChild(this.overlay);
+
     this.container = document.createElement("div");
     this.container.className = "popup__container";
-
     this.popup.appendChild(this.container);
+
+    this.content = document.createElement("div");
+    this.content.className = "popup__content";
+    this.content.appendChild(content);
+    this.container.appendChild(this.content);
 
     this.closeBtn = document.createElement("button");
     this.closeBtn.className = "popup__close";
-
     this.container.appendChild(this.closeBtn);
-
-    this.container.insertAdjacentHTML("beforeend", content);
 
     document.querySelector("body").appendChild(this.popup);
   }
 
-  open(className) {
-    this.toBuilt();
-    this.initEvents(className);
+  open() {
+    this._toBuilt();
+    this._initEvents();
+  }
+
+  init() {
+    this.open();
   }
 }
