@@ -4,14 +4,21 @@ export class Popup {
     this.overlay = null;
     this.container = null;
     this.closeBtn = null;
+    this.isOpened = "is-opened";
     this.options = {
       content: content
     };
   }
 
   close() {
-    if (this.popup.classList.contains("is-opened")) {
-      this.popup.classList.remove("is-opened");
+    if (this.popup.classList.contains(this.isOpened)) {
+      this.popup.classList.remove(this.isOpened);
+    }
+  }
+
+  open() {
+    if (!this.popup.classList.contains(this.isOpened)) {
+      this.popup.classList.add(this.isOpened);
     }
   }
 
@@ -19,7 +26,7 @@ export class Popup {
     const elem = document.querySelector(".js-popup-open");
     if (elem) {
       elem.addEventListener("click", () => {
-        this.popup.classList.add("is-opened");
+        this.popup.classList.add(this.isOpened);
       });
     }
 
@@ -38,7 +45,7 @@ export class Popup {
     if (typeof this.options.content === "string") {
       content = this.options.content;
     } else {
-      content = this.options.content;
+      content = this.options.content.innerHTML;
     }
 
     this.popup = document.createElement("div");
@@ -54,7 +61,7 @@ export class Popup {
 
     this.content = document.createElement("div");
     this.content.className = "popup__content";
-    this.content.appendChild(content);
+    this.content.innerHTML = content;
     this.container.appendChild(this.content);
 
     this.closeBtn = document.createElement("button");
@@ -64,12 +71,8 @@ export class Popup {
     document.querySelector("body").appendChild(this.popup);
   }
 
-  open() {
+  init() {
     this._toBuilt();
     this._initEvents();
-  }
-
-  init() {
-    this.open();
   }
 }
